@@ -14,7 +14,7 @@ nltk.download(stopwords)
 #FIXME: load a stem class
 #stemmer = PorterStemmer()
 
-def tokenize_sentence(sentence):
+def tokenize(sentence):
     #FIXME: this tokenizer removes repeated words.
     return word_tokenize(sentence)
 
