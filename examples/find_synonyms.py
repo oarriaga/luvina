@@ -15,6 +15,6 @@ tokens_2 = preprocess_sentence(sentence_2)
 synonyms = luv.find_synonyms(tokens_1, tokens_2)
 print(synonyms)
 
-edited_sentence = luv.edit(luv.tokenize_sentence(sentence_2), synonyms)
+edited_sentence = luv.edit(luv.tokenize(sentence_2), synonyms)
 print(edited_sentence)
 
