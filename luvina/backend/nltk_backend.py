@@ -23,6 +23,10 @@ replacement_patterns = [
         (r'(\w+)\'d', '\g<1> would')
 ]
 
+patterns = []
+for regular_expression, replacement in replacement_patterns:
+    patterns.append((re.compile(regular_expression), replacement))
+
 def download_nltk_data(package_name=None):
     if package_name is None:
         data = ['punkt', 'wordnet', 'stopwords']
@@ -114,6 +118,11 @@ def edit(hypothesis_sentence, token_connections,
 
 def lemmatize(word, pos='n'):
     return lemmatizer.lemmatize(word, pos=pos)
+
+def expand_contractions(sentence):
+    for (pattern, replacement) in patterns:
+        sentence = re.sub(pattern, replacement, sentence)
+    return sentence
 
 
 
