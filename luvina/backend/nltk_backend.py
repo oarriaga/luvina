@@ -8,7 +8,7 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import nltk
 
-#GLOBAL VARIABLES
+#GLOBAL VARIABLES -----------------------------------
 lemmatizer = WordNetLemmatizer()
 replacement_patterns = [
         (r'won\'t', 'will not'),
@@ -26,6 +26,10 @@ replacement_patterns = [
 patterns = []
 for regular_expression, replacement in replacement_patterns:
     patterns.append((re.compile(regular_expression), replacement))
+
+repeat_regular_expresssion = re.compile(r'(\w*)(\w)\2(\w*)')
+repeat_replacement = r'\1\2\3'
+# ----------------------------------------------------
 
 def download_nltk_data(package_name=None):
     if package_name is None:
@@ -64,15 +68,6 @@ def calculate_wordnet_similarity(word_1, word_2):
     word_synset_1 = wordnet.synset(word_1)
     word_synset_2 = wordnet.synset(word_1)
     return word_synset_1.wup_similiraty(word_synset_2)
-
-"""
-def find_synonyms_set(tokenized_sentence_1, tokenized_sentence_2):
-    synonyms = []
-    for token in tokenized_sentence_1:
-        token_synonyms = set(get_synonyms(token))
-        found_synonyms = token_synonyms.intersection(set(tokenized_sentence_2))
-        synonyms.append(list(found_synonyms))
-"""
 
 def find_synonyms(reference_sentence, hypothesis_sentence, return_tokens=True):
     """
@@ -124,6 +119,12 @@ def expand_contractions(sentence):
         sentence = re.sub(pattern, replacement, sentence)
     return sentence
 
-
-
+def remove_repeated_characters(word):
+    if wordnet.synsets(word):
+        return word
+    replaced_word = repeat_regular_expresssion.sub(repeat_replacement, word)
+    if replaced_word != word:
+        return  remove_repeated_characters(replaced_word)
+    else:
+        return replaced_word
 
