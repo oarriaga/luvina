@@ -1,10 +1,27 @@
 from collections import OrderedDict
 from itertools import chain
+import re
 
 from nltk.tokenize import word_tokenize
 from nltk.corpus import wordnet
 from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
 import nltk
+
+#GLOBAL VARIABLES
+lemmatizer = WordNetLemmatizer()
+replacement_patterns = [
+        (r'won\'t', 'will not'),
+        (r'can\'t', 'cannot'),
+        (r'i\'m', 'i am'),
+        (r'ain\'t', 'is not'),
+        (r'(\w+)\'ll', '\g<1> will'),
+        (r'(\w+)n\'t', '\g<1> not'),
+        (r'(\w+)\'ve', '\g<1> have'),
+        (r'(\w+)\'s', '\g<1> is'),
+        (r'(\w+)\'re', '\g<1> are'),
+        (r'(\w+)\'d', '\g<1> would')
+]
 
 def download_nltk_data(package_name=None):
     if package_name is None:
@@ -24,6 +41,10 @@ def get_synonyms(word):
             synonyms.append(lemma.name())
     return synonyms
 
+def get_definition(word):
+    synset = wordnet.synsets(word)[0]
+    synset.definition()
+
 def filter_stop_words(tokenized_sentence):
     english_stops = set(stopwords.words('english'))
     filtered_tokens = []
@@ -40,12 +61,14 @@ def calculate_wordnet_similarity(word_1, word_2):
     word_synset_2 = wordnet.synset(word_1)
     return word_synset_1.wup_similiraty(word_synset_2)
 
+"""
 def find_synonyms_set(tokenized_sentence_1, tokenized_sentence_2):
     synonyms = []
     for token in tokenized_sentence_1:
         token_synonyms = set(get_synonyms(token))
         found_synonyms = token_synonyms.intersection(set(tokenized_sentence_2))
         synonyms.append(list(found_synonyms))
+"""
 
 def find_synonyms(reference_sentence, hypothesis_sentence, return_tokens=True):
     """
@@ -88,5 +111,10 @@ def edit(hypothesis_sentence, token_connections,
         edited_hypothesis.append(hypothesis_token)
     edited_hypothesis = ' '.join(edited_hypothesis)
     return edited_hypothesis
+
+def lemmatize(word, pos='n'):
+    return lemmatizer.lemmatize(word, pos=pos)
+
+
 
 
