@@ -8,7 +8,7 @@ setup(name='luvina',
       author_email='arriaga.camargo@gmail.com',
       url='https://github.com/oarriaga/luvina',
       license='MIT',
-      install_requires=['nltk'],
+      install_requires=['nltk', 'pyenchant'],
       packages=find_packages()
       )
 
