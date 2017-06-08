@@ -6,8 +6,9 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import wordnet
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-import nltk
-
+from nltk import download
+from nltk.metrics import edit_distance
+import enchant
 #GLOBAL VARIABLES -----------------------------------
 lemmatizer = WordNetLemmatizer()
 replacement_patterns = [
@@ -29,15 +30,17 @@ for regular_expression, replacement in replacement_patterns:
 
 repeat_regular_expresssion = re.compile(r'(\w*)(\w)\2(\w*)')
 repeat_replacement = r'\1\2\3'
+
+spell_dictionary = enchant.Dict('en')
 # ----------------------------------------------------
 
 def download_nltk_data(package_name=None):
     if package_name is None:
         data = ['punkt', 'wordnet', 'stopwords']
         for package in data:
-            nltk.download(package)
+            download(package)
     else:
-        nltk.download(package)
+        download(package)
 
 def tokenize(sentence):
     return word_tokenize(sentence)
@@ -127,4 +130,23 @@ def remove_repeated_characters(word):
         return  remove_repeated_characters(replaced_word)
     else:
         return replaced_word
+
+def suggest_words(word):
+    if spell_dictionary.check(word):
+        return word
+    return spell_dictionary.suggest(word)
+
+def correct_misspelling(word, max_distance=2):
+    suggested_words = suggest_words(word)
+    best_suggestion = suggested_words[0]
+    num_modified_characters =  edit_distance(word, best_suggestion)
+
+    if ((suggested_words is not None) and
+        (max_distance > num_modified_characters)):
+        return best_suggestion
+    else:
+        return word
+
+
+
 
