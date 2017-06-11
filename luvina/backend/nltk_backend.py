@@ -8,6 +8,7 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk import download
 from nltk.metrics import edit_distance
+import nltk
 import enchant
 #GLOBAL VARIABLES -----------------------------------
 lemmatizer = WordNetLemmatizer()
@@ -36,7 +37,7 @@ spell_dictionary = enchant.Dict('en')
 
 def download_nltk_data(package_name=None):
     if package_name is None:
-        data = ['punkt', 'wordnet', 'stopwords']
+        data = ['punkt', 'wordnet', 'stopwords', 'averaged_perceptron_tagger']
         for package in data:
             download(package)
     else:
@@ -131,21 +132,30 @@ def remove_repeated_characters(word):
     else:
         return replaced_word
 
+def in_dictionary(word):
+    return spell_dictionary.check(word)
+
 def suggest_words(word):
-    if spell_dictionary.check(word):
-        return [word]
     return spell_dictionary.suggest(word)
 
 def correct_misspelling(word, max_distance=2):
+    if in_dictionary(word):
+        return word
     suggested_words = suggest_words(word)
-    best_suggestion = suggested_words[0]
-    num_modified_characters =  edit_distance(word, best_suggestion)
-    if ((suggested_words is not None) and
-        (max_distance > num_modified_characters)):
-        return best_suggestion
+    if suggested_words is not None:
+        num_modified_characters = []
+        for suggest_word in suggested_words:
+            num_modified_characters.append(edit_distance(word, suggest_word))
+        max_num_modified_characters = min(num_modified_characters)
+        best_arg = num_modified_characters.index(max_num_modified_characters)
+        if max_distance > max_num_modified_characters:
+            best_suggestion = suggested_words[best_arg]
+            return best_suggestion
+        else:
+            return word
     else:
         return word
 
-
-
+def tag_pos(tokens):
+    return nltk.pos_tag(tokens)
 
