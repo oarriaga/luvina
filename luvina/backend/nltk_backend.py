@@ -133,14 +133,13 @@ def remove_repeated_characters(word):
 
 def suggest_words(word):
     if spell_dictionary.check(word):
-        return word
+        return [word]
     return spell_dictionary.suggest(word)
 
 def correct_misspelling(word, max_distance=2):
     suggested_words = suggest_words(word)
     best_suggestion = suggested_words[0]
     num_modified_characters =  edit_distance(word, best_suggestion)
-
     if ((suggested_words is not None) and
         (max_distance > num_modified_characters)):
         return best_suggestion
