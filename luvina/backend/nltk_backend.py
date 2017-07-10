@@ -2,6 +2,7 @@ from collections import OrderedDict
 from itertools import chain
 import re
 
+from nltk.util import ngrams
 from nltk.tokenize import word_tokenize
 from nltk.corpus import wordnet
 from nltk.corpus import stopwords
@@ -115,6 +116,26 @@ def edit(hypothesis_sentence, token_connections,
     edited_hypothesis = ' '.join(edited_hypothesis)
     return edited_hypothesis
 
+    """
+    Given word and value of n(denotes how many grams of text)
+    n = 1 means unigram
+    n = 2 means bigram and so on
+    """
+def find_ngram(word,n):
+
+    return list(ngrams(word,n))
+
+    """
+    Jaccard correlation coefficient computes
+    similarity between two terms
+    """
+def get_jaccard_coefficient(a,b):
+
+    union = list(set(a+b))
+    intersection = list(set(a) - (set(a)-set(b)))
+    jaccard_coeff = float(len(intersection))/len(union)
+    return jaccard_coeff
+
 def lemmatize(word, pos='n'):
     return lemmatizer.lemmatize(word, pos=pos)
 
@@ -138,6 +159,8 @@ def in_dictionary(word):
 def suggest_words(word):
     return spell_dictionary.suggest(word)
 
+# Correct misspelling using minimum edit distance
+
 def correct_misspelling(word, max_distance=2):
     if in_dictionary(word):
         return word
@@ -156,6 +179,43 @@ def correct_misspelling(word, max_distance=2):
     else:
         return word
 
+    """
+    Steps:
+
+    1. Find Misspelled words
+    2. Check Suggested Words
+    3. Filter suggested words which are different within some distance using edit distance
+    4. Compute Ngram of misspelled word and each suggested word
+    5. Compute Jaccard coefficient of misspelled word and each suggested word
+    6. Replace suggested word with maximum jaccard coefficient
+
+    """
+def spell_corrector_ngram(word, max_distance=3):
+
+    if in_dictionary(word):
+        return word
+    suggested_words = suggest_words(word)
+    max_jaccard = []
+    list_of_sug_words = []
+    if suggested_words is not None:
+
+        word_ngrams = find_ngram(word, 2)
+
+        for suggest_word in suggested_words:
+
+            if (edit_distance(word,suggest_word)) < max_distance :
+                suggest_ngrams = find_ngram(suggest_word,2)
+                jac = get_jaccard_coefficient(word_ngrams,suggest_ngrams)
+                max_jaccard.append(jac)
+                list_of_sug_words.append(suggest_word)
+        highest_jaccard = max(max_jaccard)
+        best_arg = max_jaccard.index(highest_jaccard)
+        word = list_of_sug_words[best_arg]
+        return word
+
+    else:
+        return word
+
+
 def tag_pos(tokens):
     return nltk.pos_tag(tokens)
-
