@@ -72,9 +72,20 @@ def filter_data(data, max_length=25, pad=True):
 
 
 if __name__ == '__main__':
+    from models.siamese import SiameseLSTM
     max_length = 25
+    hidden_size = 100
+    batch_size = 32
+    num_epochs = 100000
+    validation_split = .2
     input_1 = preprocess_sentences(dataset['Sent1'])
     input_2 = preprocess_sentences(dataset['Sent2'])
     output = dataset['Score'].values
     data = (input_1, input_2, output)
     input_1, input_2, output = filter_data(data, max_length)
+    output = output / np.max(output)
+    model = SiameseLSTM(max_length, hidden_size)
+    model.compile(optimizer='adam', loss='mean_squared_error')
+    model.summary()
+    model.fit([input_1, input_2], output, batch_size, num_epochs,
+              validation_split=validation_split)
