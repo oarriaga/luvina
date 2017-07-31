@@ -81,11 +81,16 @@ def get_definition(word):
     return synset
 
 
+def get_stop_words():
+    english_stop_words = set(stopwords.words('english'))
+    return english_stop_words
+
+
 def filter_stop_words(tokenized_sentence):
-    english_stops = set(stopwords.words('english'))
+    english_stop_words = get_stop_words()
     filtered_tokens = []
     for token in tokenized_sentence:
-        if token not in english_stops:
+        if token not in english_stop_words:
             filtered_tokens.append(token)
     return filtered_tokens
 
