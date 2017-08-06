@@ -5,23 +5,23 @@ from backend import expand_contractions, get_vector, tokenize
 dataset = sts.get_data()
 
 
-def preprocess_token(token):
+def _preprocess_token(token):
     token = expand_contractions(token)
     # token = correct_misspelling(token)
     token = get_vector(token)
     return token
 
 
-def preprocess_sentence(sentence):
+def _preprocess_sentence(sentence):
     tokens = tokenize(sentence)
-    vectors = [preprocess_token(token) for token in tokens]
+    vectors = [_preprocess_token(token) for token in tokens]
     return vectors
 
 
 def preprocess_sentences(sentences, max_lenghts=25):
     data = []
     for sentence in sentences:
-        sentence = preprocess_sentence(sentence)
+        sentence = _preprocess_sentence(sentence)
         data.append(sentence)
     return data
 
