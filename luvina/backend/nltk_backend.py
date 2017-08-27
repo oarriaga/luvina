@@ -1,14 +1,13 @@
-from collections import OrderedDict
 import re
 
 from nltk.tokenize import word_tokenize
-# from nltk.util import ngrams
 from nltk.corpus import wordnet
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk import download
 from nltk import pos_tag
 from nltk.metrics import edit_distance
+from nltk.util import ngrams
 
 # -------------------------------------------------------------------
 # NLTK GLOBAL VARIABLES
@@ -86,8 +85,7 @@ def get_definition(token):
     returns:
         definition: string containing definition of word
     """
-    definition = wordnet.synsets(token)[0]
-    return definition
+    return wordnet.synsets(token)[0].definition()
 
 
 def get_stop_words(language='english'):
@@ -117,17 +115,6 @@ def filter_tokens(tokens, filters):
     return filtered_tokens
 
 
-def filter_repeated_tokens(tokens):
-    """ removes repeated tokens
-    args:
-        tokens: a list of tokens
-    returns:
-        filtered_tokens: a list of tokens without repeated tokens
-    """
-    filtered_tokens = list(OrderedDict((token, None) for token in tokens))
-    return filtered_tokens
-
-
 def calculate_wordnet_similarity(token_1, token_2):
     """ calculates similarity between two tokens using wordnet
     args:
@@ -140,17 +127,6 @@ def calculate_wordnet_similarity(token_1, token_2):
     synset_2 = wordnet.synsets(token_2)[0]
     wordnet_similarity = synset_1.wup_similarity(synset_2)
     return wordnet_similarity
-
-
-def join(tokens):
-    """ construct a string sentence from joining tokens with spaces
-    args:
-        tokens: list of strings
-    returns:
-        joined_tokens: a string containing all tokens
-    """
-    joined_tokens = ' '.join(tokens)
-    return joined_tokens
 
 
 def lemmatize(token, pos='n'):
@@ -204,8 +180,9 @@ def tag_pos(tokens):
     return pos_tag(tokens)
 
 
-def get_distance(token_1, token_2):
-    """ get number of different characters between token_1 and token_2
+def calculate_levenshtein_distance(token_1, token_2):
+    """ get number of characters that need to be substituted,
+    inserted or deleted to go from token_1 to token_2.
     args:
         token_1: string
         token_2: string
@@ -213,3 +190,16 @@ def get_distance(token_1, token_2):
         int
     """
     return edit_distance(token_1, token_2)
+
+
+def make_ngrams(sequence, n, pad_left=False, pad_right=False,
+                left_pad_symbol=None, right_pad_symbol=None):
+    """ return the ngrams made by sequence of items
+    args:
+        tokens: list of strings/tokens
+        n: number of subsequent items
+    returns:
+        list of lists
+    """
+    return list(ngrams(sequence, n, pad_left, pad_right,
+                       left_pad_symbol, right_pad_symbol))

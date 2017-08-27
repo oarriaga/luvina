@@ -25,5 +25,3 @@ def suggest_words(token):
         list of strings containing similar tokens
     """
     return spell_dictionary.suggest(token)
-
-
