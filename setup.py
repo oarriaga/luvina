@@ -11,5 +11,3 @@ setup(name='luvina',
       install_requires=['nltk', 'pyenchant', 'spacy'],
       packages=find_packages()
       )
-
-
