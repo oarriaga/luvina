@@ -4,7 +4,21 @@ from .common import remove_repeated_elements
 
 
 spacy_dictionary = spacy.load('en')
+parser = English()
 
+def get_pos_tag(sentence):
+    """ add part of speech tags for each string in sentence
+    args:
+        takes input as sentence
+    returns:
+        list containing strings with part of speech tags
+    """
+    parseText = parser(sentence)
+    pos_tag_list = []
+    for word in parseText:
+        pos_tag_list.append(word)
+        pos_tag_list.append(word.pos_)
+    return pos_tag_list
 
 def get_vector(word):
     """ get glove vector word representation
