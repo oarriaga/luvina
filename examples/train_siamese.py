@@ -1,4 +1,5 @@
 import numpy as np
+from luvina.datasetes import sts
 from datasets import sts
 from backend import expand_contractions, get_vector, tokenize
 from backend import correct_misspelling_ngram
