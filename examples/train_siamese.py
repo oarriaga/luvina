@@ -1,21 +1,19 @@
 import numpy as np
-from luvina.datasetes import sts
-from datasets import sts
-from backend import expand_contractions, get_vector, tokenize
-from backend import correct_misspelling_ngram
+from luvina.datasets import sts
+import luvina.backend as luv
 
 dataset = sts.get_data()
 
 
 def _preprocess_token(token):
-    token = expand_contractions(token)
-    token = correct_misspelling_ngram(token)
-    token = get_vector(token)
+    token = luv.expand_contractions(token)
+    token = luv.correct_misspelling_ngram(token)
+    token = luv.get_vector(token)
     return token
 
 
 def _preprocess_sentence(sentence):
-    tokens = tokenize(sentence)
+    tokens = luv.tokenize(sentence)
     vectors = [_preprocess_token(token) for token in tokens]
     return vectors
 
@@ -74,7 +72,7 @@ def filter_data(data, max_length=25, pad=True):
 
 
 if __name__ == '__main__':
-    from models.siamese import SiameseLSTM
+    from luvina.models import SiameseLSTM
     max_length = 25
     hidden_size = 100
     batch_size = 32

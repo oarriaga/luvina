@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-def get_data(data_file='semantic_text_similarity.csv'):
+def load_data(data_file='semantic_text_similarity.csv'):
     dataset_path = 'datasets/'
     filename = dataset_path + data_file
     data = pd.read_csv(filename, sep='\t', error_bad_lines=False,
