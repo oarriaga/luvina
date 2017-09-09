@@ -4,47 +4,50 @@ from .common import remove_repeated_elements
 
 
 spacy_dictionary = spacy.load('en')
-parser = English()
-
-def get_pos_tag(sentence):
-    """ add part of speech tags for each string in sentence
-    args:
-        takes input as sentence
-    returns:
-        list containing strings with part of speech tags
-    """
-    parseText = parser(sentence)
-    pos_tag_list = []
-    for word in parseText:
-        pos_tag_list.append(word)
-        pos_tag_list.append(word.pos_)
-    return pos_tag_list
 
 
-def find_lemma(sentence):
-    """ add lemma for each string in sentence
-    args:
-        takes input as sentence
-    returns:
-        list containing strings with lemma of each string
-    """
-    parseText = parser(sentence)
-    lemma_list = []
-    for word in parseText:
-        lemma_list.append(word)
-        lemma_list.append(word.lemma_)
-    return lemma_list
-
-
-def get_lowercase_words(token):
-    """ convert token into lowercase
-    args:
-        takes input as tokens
-    returns:
-        token in lowercase
-    """
-    return token.lower_
-
+# parser = English()
+#
+#
+# def get_pos_tag(sentence):
+#    """ add part of speech tags for each string in sentence
+#    args:
+#        takes input as sentence
+#    returns:
+#        list containing strings with part of speech tags
+#    """
+#    parseText = parser(sentence)
+#    pos_tag_list = []
+#    for word in parseText:
+#        pos_tag_list.append(word)
+#        pos_tag_list.append(word.pos_)
+#    return pos_tag_list
+#
+#
+# def find_lemma(sentence):
+#    """ add lemma for each string in sentence
+#    args:
+#        takes input as sentence
+#    returns:
+#        list containing strings with lemma of each string
+#    """
+#    parseText = parser(sentence)
+#    lemma_list = []
+#    for word in parseText:
+#        lemma_list.append(word)
+#        lemma_list.append(word.lemma_)
+#    return lemma_list
+#
+#
+# def get_lowercase_words(token):
+#    """ convert token into lowercase
+#    args:
+#        takes input as tokens
+#    returns:
+#        token in lowercase
+#    """
+#    return token.lower_
+#
 
 def get_vector(word):
     """ get glove vector word representation
