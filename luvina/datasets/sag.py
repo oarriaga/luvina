@@ -1,10 +1,12 @@
+from luvina.utils.data_utils import get_file
 import pandas as pd
 import glob
 from os.path import basename
 
 
-def _get_string_data():
-    data_path = '../datasets/short_answer_grading_v2/raw/'
+def _get_string_data(root_path):
+    # data_path = '../datasets/short_answer_grading_v2/raw/'
+    data_path = root_path + '/raw/'
     questions_filename = data_path + 'questions'
     teacher_answers_filename = data_path + 'answers'
     student_answers_filename = data_path + 'all'
@@ -36,8 +38,9 @@ def _read_file(filename):
     return data_frame
 
 
-def _get_scores():
-    data_path = '../datasets/short_answer_grading_v2/scores/'
+def _get_scores(root_path):
+    # data_path = '../datasets/short_answer_grading_v2/scores/'
+    data_path = root_path + '/scores/'
     score_paths = glob.glob(data_path + '*')
     scores = dict()
     for scores_path in score_paths:
@@ -61,9 +64,9 @@ def _convert_to_dictionary(string_data):
     return data
 
 
-def get_data():
-    questions, teacher_answers, student_answers = _get_string_data()
-    scores = _get_scores()
+def get_data(root_path):
+    questions, teacher_answers, student_answers = _get_string_data(root_path)
+    scores = _get_scores(root_path)
     teacher_answers = _convert_to_dictionary(teacher_answers)
     teacher_answers_list = []
     student_answers_list = []
@@ -93,3 +96,19 @@ def get_data():
     data_frames = [data_1, data_2, data_3]
     data = pd.concat(data_frames, axis=0)
     return data
+
+
+def load_data(path='short_answer_grading'):
+    """Loads the Short Answer grading data.
+
+    # Arguments
+        path: path where to cache the dataset locally
+            (relative to ~/.keras/datasets).
+
+    # Returns
+        Tuple of Numpy arrays: `(x_train, y_train), (x_test, y_test)`.
+    """
+    origin = ('http://web.eecs.umich.edu/~mihalcea/' +
+              'downloads/ShortAnswerGrading_v2.0.zip')
+    root_path = get_file(path, origin=origin, untar=True)
+    return get_data(root_path)
