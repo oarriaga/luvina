@@ -2,6 +2,7 @@ from luvina.utils.data_utils import get_file
 import pandas as pd
 import glob
 from os.path import basename
+import os
 
 
 def _get_string_data(root_path):
@@ -98,7 +99,8 @@ def get_data(root_path):
     return data
 
 
-def load_data(path='short_answer_grading'):
+# def load_data(path='data'):
+def load_data(path='ShortAnswerGrading_v2.0'):
     """Loads the Short Answer grading data.
 
     # Arguments
@@ -110,5 +112,7 @@ def load_data(path='short_answer_grading'):
     """
     origin = ('http://web.eecs.umich.edu/~mihalcea/' +
               'downloads/ShortAnswerGrading_v2.0.zip')
-    root_path = get_file(path, origin=origin, untar=True)
+    root_path = get_file(path, origin=origin, extract=True,
+                         cache_subdir='datasets/short_answer_grading')
+    root_path = os.path.dirname(root_path) + '/data'
     return get_data(root_path)

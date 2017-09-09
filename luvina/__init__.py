@@ -3,8 +3,8 @@ import os
 
 from . import backend
 from . import datasets
-from . import metrics
-from . import models
+# from . import metrics
+# from . import models
 from . import utils
 
 __version__ = '0.0.9'
