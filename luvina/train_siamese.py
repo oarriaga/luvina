@@ -1,13 +1,14 @@
 import numpy as np
 from datasets import sts
 from backend import expand_contractions, get_vector, tokenize
+from backend import correct_misspelling_ngram
 
 dataset = sts.get_data()
 
 
 def _preprocess_token(token):
     token = expand_contractions(token)
-    # token = correct_misspelling(token)
+    token = correct_misspelling_ngram(token)
     token = get_vector(token)
     return token
 
@@ -84,8 +85,10 @@ if __name__ == '__main__':
     data = (input_1, input_2, output)
     input_1, input_2, output = filter_data(data, max_length)
     output = output / np.max(output)
+    """
     model = SiameseLSTM(max_length, hidden_size)
     model.compile(optimizer='adam', loss='mean_squared_error')
     model.summary()
     model.fit([input_1, input_2], output, batch_size, num_epochs,
               validation_split=validation_split)
+    """

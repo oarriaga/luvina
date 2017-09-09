@@ -21,27 +21,31 @@ def SiameseLSTM(max_token_length, hidden_size, embedding_size=300):
                                  name='RNN_1_a'))(text_mask_1)
 
     lstm_1_b = Bidirectional(GRU(units=hidden_size,
-                                 return_sequences=True,
+                                 return_sequences=False,
                                  name='RNN_1_b'))(lstm_1_a)
 
+    """
     lstm_1_c = Bidirectional(GRU(units=hidden_size,
                                  return_sequences=False,
                                  name='RNN_1_c'))(lstm_1_b)
+    """
 
     lstm_2_a = Bidirectional(GRU(units=hidden_size,
                                  return_sequences=True,
                                  name='RNN_2_a'))(text_mask_2)
 
     lstm_2_b = Bidirectional(GRU(units=hidden_size,
-                                 return_sequences=True,
+                                 return_sequences=False,
                                  name='RNN_2_b'))(lstm_2_a)
 
+    """
     lstm_2_c = Bidirectional(GRU(units=hidden_size,
                                  return_sequences=False,
                                  name='RNN_2_c'))(lstm_2_b)
+    """
 
     cosine_similarity = Dot(axes=1, normalize=True,
-                            name='cosine_similarity')([lstm_1_c, lstm_2_c])
+                            name='cosine_similarity')([lstm_1_b, lstm_2_b])
 
     model = Model(inputs=[text_input_1, text_input_2],
                   outputs=cosine_similarity)
