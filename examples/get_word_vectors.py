@@ -8,6 +8,6 @@ def preprocess_token(token):
     return token
 
 
-sentence = "I can't remember when the dog when outside"
+sentence = "I can't remember when was the last time I took the dog outside"
 tokens = luv.tokenize(sentence)
 vectors = [preprocess_token(token) for token in tokens]
