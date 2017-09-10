@@ -99,7 +99,6 @@ def get_data(root_path):
     return data
 
 
-# def load_data(path='data'):
 def load_data(path='ShortAnswerGrading_v2.0'):
     """Loads the Short Answer grading data.
 
