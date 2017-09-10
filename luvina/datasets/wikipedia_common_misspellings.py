@@ -1,7 +1,13 @@
 import numpy as np
+from luvina.utils.data_utils import get_file
 
 
-def load_data(data_file="wikipedia_common_misspellings.txt"):
+file_name = "wikipedia_common_misspellings.txt"
+origin = ('https://raw.githubusercontent.com/rameshjesswani/Semantic-Textual' +
+          '-Similarity/master/nlp_basics/nltk/dataset/dataset_misspelled.txt')
+
+
+def load_data():
     """
     i. Data set is downloaded from:
     https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/A
@@ -10,6 +16,7 @@ def load_data(data_file="wikipedia_common_misspellings.txt"):
     iv. Around 670 words are selected randomly from data set to evaluate
     the performance of spell correctors
     """
-    load_file = np.loadtxt(data_file, dtype='str')
+    file_path = get_file(file_name, origin)
+    load_file = np.loadtxt(file_path, dtype='str')
 
     return load_file
