@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 from collections import OrderedDict
+import numpy as np
 from .enchant_backend import in_dictionary
 from .enchant_backend import suggest_words
 from .nltk_backend import make_ngrams
@@ -97,3 +98,77 @@ def correct_misspelling_ngram(token, levenshtein_treshold=3):
         return word
     else:
         return word
+
+
+# def remove_long_sentences(sentences, max_token_size=25):
+#    # TODO: Add y predictions that should/could also be filtered
+#    # you pass y and iterate over its first dimension.
+#    """ removes sentences with a length bigger that max_length.
+#    args:
+#        sentences: list of lists containing strings/tokens.
+#        max_length: int > 0
+#    returns:
+#        filtered_sentences: list pf lists containing a strings/tokens.
+#    """
+#    filtered_sentences = []
+#    for tokens in sentences:
+#        if len(tokens) <= max_token_size:
+#            filtered_sentences.append(tokens)
+#    return filtered_sentences
+#
+#
+# def remove_long_sentences(sentences, associated_data=None,
+#    max_token_size=25):
+#    # TODO: Add y predictions that should/could also be filtered
+#    # you pass y and iterate over its first dimension.
+#    """ removes sentences with a length bigger that max_length.
+#    args:
+#        sentences: list of lists containing strings/tokens.
+#        data: Additional associated data that should be removed
+#        if a sentence is removed e. g. labels or another pair of sentences
+#        max_length: int > 0
+#    returns:
+#        filtered_sentences: list pf lists containing a strings/tokens.
+#    """
+#    mask = get_token_size_mask(sentences, max_token_size)
+#    sentences = np.asarray(sentences)[mask]
+#    associated_data = np.asarray(associated_data)[mask]
+#
+
+def get_token_size_mask(sentences, max_token_size=25):
+    """ returns mask containing True for sentences with less
+    or equal amount of tokens than the max_token_size, and
+    false otherwise.
+    args:
+        sentences: list of lists containing strings/tokens
+        max_length: int > 0
+    returns:
+        boolean numpy array of size(sentences)
+    """
+    mask = np.zeros(shape=len(sentences))
+    for sentence_arg, tokens in enumerate(sentences):
+        if len(tokens) <= max_token_size:
+            mask[sentence_arg] = True
+        else:
+            mask[sentence_arg] = False
+    return mask
+
+
+def mask_data(data, mask):
+    if data is not np.ndarray:
+        data = np.asarray(data)
+        return data[mask].tolist()
+    else:
+        return data[mask]
+
+
+def pad_with_zeros(sentences, max_length=25):
+    data = []
+    for vectors in sentences:
+        vectors = np.asarray(vectors)
+        sentence_length, embedding_dimension = vectors.shape
+        missing_zeros = max_length - sentence_length
+        zero_array = np.zeros(shape=(missing_zeros, embedding_dimension))
+        vectors = np.concatenate((vectors, zero_array), axis=0)
+        data.append(vectors.tolist())
+    return data
