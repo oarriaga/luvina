@@ -1,5 +1,7 @@
 from __future__ import absolute_import
+from collections import Counter
 from collections import OrderedDict
+from itertools import chain
 import numpy as np
 from .enchant_backend import in_dictionary
 from .enchant_backend import suggest_words
@@ -100,6 +102,60 @@ def correct_misspelling_ngram(token, levenshtein_treshold=3):
         return word
 
 
+def calculate_token_frequencies(sentences):
+    """ count the number of times all tokens appear in all sentences.
+    args:
+        sentences: list of sentences where each sentence contains a
+        list of tokens
+    returns:
+        word_frequencies: list containing two elements lists with the
+        word (string) and an integer describing the amount of times
+        the word has appeared in the all the sentences.
+    """
+    word_frequencies = Counter(chain(*sentences)).most_common()
+    return word_frequencies
+
+
+def pad(tokens, max_token_size=22, remove=False, BOS_token='<BOS>',
+        EOS_token='<EOS>', PAD_token='<PAD>'):
+    """
+    args:
+        tokens: a list of strings containing tokens
+        max_token_size: Max token size including the EOS and BOS tokens.
+        remove: Boolean flag for determining if it should remove tokens
+        bigger than max_token_size.
+        BOS_token: string beginning of the sentence token.
+        EOS_token: string end of the sentence token.
+        PAD_token: string pad token.
+    returns:
+        tuple of strings containing all added/removed tokens.
+        Tokens will get removed if the remove flag is enabled
+        and the number of tokens is bigger than max_token_size.
+    """
+
+    sentence = list(tokens)
+    max_sentence_length = max_token_size - 2
+    if len(sentence) == max_sentence_length:
+        padded_sentence = [BOS_token] + sentence + [EOS_token]
+    elif len(sentence) > max_sentence_length and not remove:
+        sentence = sentence[:max_sentence_length]
+        padded_sentence = [BOS_token] + sentence + [EOS_token]
+    elif len(sentence) > max_sentence_length and remove:
+        return []
+    elif len(sentence) < max_sentence_length:
+        padded_sentence = [BOS_token] + sentence + [EOS_token]
+        pad_size = max_token_size - len(padded_sentence)
+        pad = [PAD_token] * pad_size
+        padded_sentence = padded_sentence + pad
+    return padded_sentence
+
+
+def remove_infrequent_tokens(sentences, word_frequencies, min_frequency=3):
+    pass
+#######################################################
+# Deprecated functions
+#######################################################
+
 # def remove_long_sentences(sentences, max_token_size=25):
 #    # TODO: Add y predictions that should/could also be filtered
 #    # you pass y and iterate over its first dimension.
@@ -133,7 +189,6 @@ def correct_misspelling_ngram(token, levenshtein_treshold=3):
 #    mask = get_token_size_mask(sentences, max_token_size)
 #    sentences = np.asarray(sentences)[mask]
 #    associated_data = np.asarray(associated_data)[mask]
-#
 
 def get_token_size_mask(sentences, max_token_size=25):
     """ returns mask containing True for sentences with less

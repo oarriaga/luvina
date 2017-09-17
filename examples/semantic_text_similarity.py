@@ -2,66 +2,37 @@ import numpy as np
 import luvina.backend as luv
 
 
-def preprocess_sentences(sentences):
-    return [_preprocess_sentence(sentence) for sentence in sentences]
+def preprocess_sentences(sentences, max_token_size, remove):
+    preprocessed_sentences = []
+    for sentence in sentences:
+        tokens = luv.tokenize(sentence)
+        tokens = luv.pad(tokens, max_token_size, remove)
+        preprocessed_tokens = []
+        for token in tokens:
+            preprocessed_token = luv.expand_contractions(token)
+            preprocessed_token = luv.correct_misspelling(token)
+            preprocessed_token = luv.get_vector(token)
+            preprocessed_tokens.append(preprocessed_token)
+        preprocessed_sentences.append(preprocessed_tokens)
+    return np.concatenate(preprocess_sentences, axis=0)
 
 
-def _preprocess_sentence(sentence):
+def 2preprocess_sentences(sentences):
+    sentences = [luv.pad(luv.tokenize(sentence)) for sentence in sentences]
+
+
+def preprocess_sentence(sentence):
     tokens = luv.tokenize(sentence)
-    vectors = [_preprocess_token(token) for token in tokens]
+    tokens = luv.pad(tokens)
+    vectors = [preprocess_token(token) for token in tokens]
     return vectors
 
 
-def _preprocess_token(token):
+def preprocess_token(token):
     token = luv.expand_contractions(token)
-    token = luv.correct_misspelling_ngram(token)
+    token = luv.correct_misspelling(token)
     token = luv.get_vector(token)
     return token
-
-
-def _get_length_mask(input_1, input_2, max_length=25):
-    lengths_1 = np.asarray([len(tokens) for tokens in input_1])
-    lengths_2 = np.asarray([len(tokens) for tokens in input_2])
-    mask_1 = lengths_1 < max_length
-    mask_2 = lengths_2 < max_length
-    mask = np.logical_and(mask_1, mask_2)
-    return mask
-
-
-def _mask_data(data, mask):
-    input_1, input_2, output = data
-    input_1 = np.asarray(input_1)[mask]
-    input_2 = np.asarray(input_2)[mask]
-    output = np.asarray(output)[mask]
-    masked_data = (input_1.tolist(),
-                   input_2.tolist(),
-                   output.tolist())
-    return masked_data
-
-
-def _zero_pad(input_data, max_length=25):
-    data = []
-    for sample in input_data:
-        sample = np.asarray(sample)
-        sentence_length, embedding_dimension = sample.shape
-        missing_zeros = max_length - sentence_length
-        zero_array = np.zeros(shape=(missing_zeros, embedding_dimension))
-        sample = np.concatenate((sample, zero_array), axis=0)
-        data.append(sample)
-    return data
-
-
-def filter_data(data, max_length=25, pad=True):
-    input_1, input_2, output = data
-    mask = _get_length_mask(input_1, input_2, max_length)
-    data = (input_1, input_2, output)
-    input_1, input_2, output = _mask_data(data, mask)
-    if pad:
-        input_1 = _zero_pad(input_1, max_length)
-        input_2 = _zero_pad(input_2, max_length)
-    return (np.asarray(input_1),
-            np.asarray(input_2),
-            np.asarray(output))
 
 
 if __name__ == '__main__':
