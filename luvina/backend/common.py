@@ -28,6 +28,7 @@ def correct_misspelling(token, distance_threshold=2):
         for suggested_word in suggested_words:
             distance = calculate_levenshtein_distance(token, suggested_word)
             num_modified_characters.append(distance)
+        # this min is showing errors since it takes an empy/none variable as inputen    
         min_num_modified_characters = min(num_modified_characters)
         best_arg = num_modified_characters.index(min_num_modified_characters)
         if distance_threshold > min_num_modified_characters:

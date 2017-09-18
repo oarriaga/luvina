@@ -2,7 +2,7 @@ import numpy as np
 import luvina.backend as luv
 
 
-def preprocess_sentences(sentences, max_token_size, remove):
+def preprocess_sentences(sentences, max_token_size=22, remove=False):
     preprocessed_sentences = []
     for sentence in sentences:
         tokens = luv.tokenize(sentence)
@@ -10,54 +10,32 @@ def preprocess_sentences(sentences, max_token_size, remove):
         preprocessed_tokens = []
         for token in tokens:
             preprocessed_token = luv.expand_contractions(token)
-            preprocessed_token = luv.correct_misspelling(token)
             preprocessed_token = luv.get_vector(token)
             preprocessed_tokens.append(preprocessed_token)
+        preprocessed_tokens = np.asarray(preprocessed_tokens)
         preprocessed_sentences.append(preprocessed_tokens)
-    return np.concatenate(preprocess_sentences, axis=0)
-
-
-def 2preprocess_sentences(sentences):
-    sentences = [luv.pad(luv.tokenize(sentence)) for sentence in sentences]
-
-
-def preprocess_sentence(sentence):
-    tokens = luv.tokenize(sentence)
-    tokens = luv.pad(tokens)
-    vectors = [preprocess_token(token) for token in tokens]
-    return vectors
-
-
-def preprocess_token(token):
-    token = luv.expand_contractions(token)
-    token = luv.correct_misspelling(token)
-    token = luv.get_vector(token)
-    return token
+    return np.asarray(preprocessed_sentences)
 
 
 if __name__ == '__main__':
 
-    from luvina.models import SiameseLSTM
     from luvina.datasets import semantic_text_similarity
+    from luvina.metrics import calculate_r2_score
+    from luvina.models import SiameseLSTM
 
-    max_length = 25
-    hidden_size = 100
-    batch_size = 32
     num_epochs = 100000
-    validation_split = .2
+    hidden_size = 100
+    max_length = 25
+    batch_size = 32
 
     dataset = semantic_text_similarity.load_data()
-    input_1 = preprocess_sentences(dataset['Sent1'])
-    input_2 = preprocess_sentences(dataset['Sent2'])
+    input_1 = preprocess_sentences(dataset['Sent1'], max_length)
+    input_2 = preprocess_sentences(dataset['Sent2'], max_length)
     output = dataset['Score'].values
-    data = (input_1, input_2, output)
-    input_1, input_2, output = filter_data(data, max_length)
     output = output / np.max(output)
 
-    """
     model = SiameseLSTM(max_length, hidden_size)
-    model.compile(optimizer='adam', loss='mean_squared_error')
+    model.compile('adam', 'mean_squared_error', metrics=[calculate_r2_score])
     model.summary()
     model.fit([input_1, input_2], output, batch_size, num_epochs,
-              validation_split=validation_split)
-    """
+              validation_split=.2)
