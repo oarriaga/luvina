@@ -62,6 +62,17 @@ def join(tokens):
     return joined_tokens
 
 
+def compute_jaccard_similarity(query, document):
+    """ function taken explicitly from:
+    http://billchambers.me/tutorials/2014/12/21/tf-idf-explained-in-python.html
+    calculates the intersection over union of a query
+    in a given document.
+    """
+    intersection = set(query).intersection(set(document))
+    union = set(query).union(set(document))
+    return len(intersection)/len(union)
+
+
 def calculate_jaccard_coefficient(a, b):
     union = list(set(a + b))
     intersection = list(set(a) - (set(a) - set(b)))

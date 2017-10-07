@@ -34,8 +34,14 @@ if __name__ == '__main__':
     output = dataset['Score'].values
     output = output / np.max(output)
 
+    mask = np.random.choice(np.arange(len(output)), len(output), False)
+    input_1 = input_1[mask]
+    input_2 = input_2[mask]
+    output = output[mask]
+
     model = SiameseLSTM(max_length, hidden_size)
     model.compile('adam', 'mean_squared_error', metrics=[calculate_r2_score])
     model.summary()
     model.fit([input_1, input_2], output, batch_size, num_epochs,
               validation_split=.2)
+
