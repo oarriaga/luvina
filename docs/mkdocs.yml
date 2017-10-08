@@ -1,0 +1,5 @@
+site_name: Luvina Documentation
+site_description: Luvina is a high-level Natural Language Processing (NLP) API for Python built on top of spaCy and NLTK.
+theme: readthedocs
+pages:
+- ['index.md', 'Index']
