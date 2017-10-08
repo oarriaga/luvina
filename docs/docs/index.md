@@ -1,17 +1,10 @@
-# Welcome to MkDocs
+# Welcome to Luvina
 
-For full documentation visit [mkdocs.org](http://mkdocs.org).
+Luvina is a high-level Natural Language Processing API for Python built on top of spaCy and NLTK. It was developed with the idea of creating easy-to-use pre-processing functionalities.
 
-## Commands
+## Installation
+You can install luvina from PyPI by running:
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs help` - Print this help message.
-
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+```
+pip install luvina
+```
