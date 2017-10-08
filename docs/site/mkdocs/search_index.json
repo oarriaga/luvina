@@ -2,23 +2,63 @@
     "docs": [
         {
             "location": "/",
-            "text": "Welcome to MkDocs\n\n\nFor full documentation visit \nmkdocs.org\n.\n\n\nCommands\n\n\n\n\nmkdocs new [dir-name]\n - Create a new project.\n\n\nmkdocs serve\n - Start the live-reloading docs server.\n\n\nmkdocs build\n - Build the documentation site.\n\n\nmkdocs help\n - Print this help message.\n\n\n\n\nProject layout\n\n\nmkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.",
-            "title": "Index"
+            "text": "Welcome to Luvina\n\n\nLuvina is a high-level Natural Language Processing API for Python built on top of spaCy and NLTK. It was developed with the idea of creating easy-to-use pre-processing functionalities.\n\n\nInstallation\n\n\nYou can install luvina from PyPI by running:\n\n\npip install luvina",
+            "title": "Home"
         },
         {
-            "location": "/#welcome-to-mkdocs",
-            "text": "For full documentation visit  mkdocs.org .",
-            "title": "Welcome to MkDocs"
+            "location": "/#welcome-to-luvina",
+            "text": "Luvina is a high-level Natural Language Processing API for Python built on top of spaCy and NLTK. It was developed with the idea of creating easy-to-use pre-processing functionalities.",
+            "title": "Welcome to Luvina"
         },
         {
-            "location": "/#commands",
-            "text": "mkdocs new [dir-name]  - Create a new project.  mkdocs serve  - Start the live-reloading docs server.  mkdocs build  - Build the documentation site.  mkdocs help  - Print this help message.",
-            "title": "Commands"
+            "location": "/#installation",
+            "text": "You can install luvina from PyPI by running:  pip install luvina",
+            "title": "Installation"
         },
         {
-            "location": "/#project-layout",
-            "text": "mkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.",
-            "title": "Project layout"
+            "location": "/backend/",
+            "text": "Luvina backends\n\n\nLuvina does not handle low level functionalities by itself; instead, it relies on already optimized libraries:\n\n\nLuvina currently supports functionalities from two backends:\n\n\n\n\nspaCy\n is an Industrial-strength Natural Language Processing (NLP) with Python and Cython\n\n\ngensim\n is a Python library for topic modelling, document indexing and similarity retrieval.",
+            "title": "Backend"
+        },
+        {
+            "location": "/backend/#luvina-backends",
+            "text": "Luvina does not handle low level functionalities by itself; instead, it relies on already optimized libraries:  Luvina currently supports functionalities from two backends:   spaCy  is an Industrial-strength Natural Language Processing (NLP) with Python and Cython  gensim  is a Python library for topic modelling, document indexing and similarity retrieval.",
+            "title": "Luvina backends"
+        },
+        {
+            "location": "/functions/",
+            "text": "Core functions\n\n\nTokenization\n\n\nluvina.backend.tokenize(sentence, lowercase=True):\n\n\n\n\nJust your basic tokenization operation.\n\n\nExample\n\n\nluv.tokenize('The cat sat on the mat.')\n>>> ['the', 'cat', 'sat', 'on', 'the', 'mat', '.']\n\n\n\n\nDefinitions\n\n\nGet definitions from token using WordNet\n\n\nluvina.backend.get_definition(token):\n\n\n\n\nExample\n\n\nluv.get_definition('car')\n>>> 'a motor vehicle with four wheels; usually propelled by an internal combustion engine'\n\n\n\n\nStop words\n\n\nGet a list of stop words (most common words).\n\n\nluvina.backend.get_stop_words(language='english'):",
+            "title": "Functions"
+        },
+        {
+            "location": "/functions/#core-functions",
+            "text": "",
+            "title": "Core functions"
+        },
+        {
+            "location": "/functions/#tokenization",
+            "text": "luvina.backend.tokenize(sentence, lowercase=True):  Just your basic tokenization operation.",
+            "title": "Tokenization"
+        },
+        {
+            "location": "/functions/#example",
+            "text": "luv.tokenize('The cat sat on the mat.')\n>>> ['the', 'cat', 'sat', 'on', 'the', 'mat', '.']",
+            "title": "Example"
+        },
+        {
+            "location": "/functions/#definitions",
+            "text": "Get definitions from token using WordNet  luvina.backend.get_definition(token):",
+            "title": "Definitions"
+        },
+        {
+            "location": "/functions/#example_1",
+            "text": "luv.get_definition('car')\n>>> 'a motor vehicle with four wheels; usually propelled by an internal combustion engine'",
+            "title": "Example"
+        },
+        {
+            "location": "/functions/#stop-words",
+            "text": "Get a list of stop words (most common words).  luvina.backend.get_stop_words(language='english'):",
+            "title": "Stop words"
         }
     ]
 }
