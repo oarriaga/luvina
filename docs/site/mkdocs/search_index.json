@@ -17,12 +17,12 @@
         },
         {
             "location": "/backend/",
-            "text": "Luvina backends\n\n\nLuvina does not handle low level functionalities by itself; instead, it relies on already optimized libraries:\n\n\nLuvina currently supports functionalities from two backends:\n\n\n\n\nspaCy\n is an Industrial-strength Natural Language Processing (NLP) with Python and Cython\n\n\ngensim\n is a Python library for topic modelling, document indexing and similarity retrieval.",
+            "text": "Luvina backends\n\n\nLuvina does not handle low level functionalities by itself; instead, it relies on already optimized libraries:\n\n\nLuvina currently supports functionalities from two backends:\n\n\n\n\nspaCy\n is an Industrial-strength Natural Language Processing (NLP) with Python and Cython\n\n\nNLTK\n is a Python library with easy-to-use interfaces and suite of text-processing libraries.",
             "title": "Backend"
         },
         {
             "location": "/backend/#luvina-backends",
-            "text": "Luvina does not handle low level functionalities by itself; instead, it relies on already optimized libraries:  Luvina currently supports functionalities from two backends:   spaCy  is an Industrial-strength Natural Language Processing (NLP) with Python and Cython  gensim  is a Python library for topic modelling, document indexing and similarity retrieval.",
+            "text": "Luvina does not handle low level functionalities by itself; instead, it relies on already optimized libraries:  Luvina currently supports functionalities from two backends:   spaCy  is an Industrial-strength Natural Language Processing (NLP) with Python and Cython  NLTK  is a Python library with easy-to-use interfaces and suite of text-processing libraries.",
             "title": "Luvina backends"
         },
         {
