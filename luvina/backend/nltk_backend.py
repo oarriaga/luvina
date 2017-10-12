@@ -1,4 +1,5 @@
 import re
+from collections import OrderedDict
 
 from nltk.tokenize import word_tokenize
 from nltk.corpus import wordnet
@@ -64,6 +65,17 @@ def tokenize(sentence, lowercase=True):
     return tokens
 
 
+def _remove_repeated_elements(tokens):
+    """ removes repeated tokens
+    args:
+        tokens: a list of tokens
+    returns:
+        filtered_tokens: a list of tokens without repeated tokens
+    """
+    filtered_tokens = list(OrderedDict((token, None) for token in tokens))
+    return filtered_tokens
+
+
 def get_synonyms(token):
     """ get synonyms of word using wordnet
     args:
@@ -75,6 +87,8 @@ def get_synonyms(token):
     for synset in wordnet.synsets(token):
         for lemma in synset.lemmas():
             synonyms.append(lemma.name())
+    synonyms = _remove_repeated_elements(synonyms)
+    synonyms.remove(token)
     return synonyms
 
 
