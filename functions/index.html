@@ -70,7 +70,11 @@
         
             <li><a class="toctree-l3" href="#definitions">Definitions</a></li>
         
+            <li><a class="toctree-l3" href="#synonyms">Synonyms</a></li>
+        
             <li><a class="toctree-l3" href="#stop-words">Stop words</a></li>
+        
+            <li><a class="toctree-l3" href="#calculate-wordnet-similarity">Calculate WordNet similarity</a></li>
         
         </ul>
     
@@ -112,29 +116,92 @@
               
                 <h1 id="core-functions">Core functions</h1>
 <h2 id="tokenization">Tokenization</h2>
-<pre><code class="python">luvina.backend.tokenize(sentence, lowercase=True):
+<pre><code class="python">luvina.backend.tokenize(sentence, lowercase=True)
 </code></pre>
 
 <p>Just your basic tokenization operation.</p>
-<h3 id="example">Example</h3>
 <pre><code class="python">luv.tokenize('The cat sat on the mat.')
 &gt;&gt;&gt; ['the', 'cat', 'sat', 'on', 'the', 'mat', '.']
 </code></pre>
 
 <h2 id="definitions">Definitions</h2>
-<p>Get definitions from token using WordNet</p>
-<pre><code class="python">luvina.backend.get_definition(token):
+<p>Get definitions from token using WordNet.</p>
+<pre><code class="python">luvina.backend.get_definition(token)
 </code></pre>
 
-<h3 id="example_1">Example</h3>
 <pre><code class="python">luv.get_definition('car')
 &gt;&gt;&gt; 'a motor vehicle with four wheels; usually propelled by an internal combustion engine'
 </code></pre>
 
+<h2 id="synonyms">Synonyms</h2>
+<pre><code class="python">luvina.backend.get_synonyms(token)
+</code></pre>
+
+<p>Get synonyms of the given token using WordNet.</p>
+<pre><code class="python">luv.get_synonyms('wallet')
+&gt;&gt;&gt; ['billfold', 'notecase', 'pocketbook']
+</code></pre>
+
 <h2 id="stop-words">Stop words</h2>
-<p>Get a list of stop words (most common words).</p>
 <pre><code class="python">luvina.backend.get_stop_words(language='english'):
 </code></pre>
+
+<p>Get a set of stop words (most common words) in the given language.</p>
+<pre><code class="python">list(luv.get_stop_words())[:5]
+&gt;&gt;&gt; ['doing', 'than', 'up', 'wouldn', 'this']
+</code></pre>
+
+<h2 id="calculate-wordnet-similarity">Calculate WordNet similarity</h2>
+<pre><code class="python">luvina.backend.calculate_wordnet_similarity(token_1, token_2):
+</code></pre>
+
+<p>Returns a score based on the shortest path between the senses in the is-a (hypernym/hypnoym) taxonomy.</p>
+<pre><code class="python">luv.calculate_wordnet_similarity('dog','cat')
+&gt;&gt;&gt; 0.8571428571428571
+</code></pre>
+
+<h3 id="lemmatize">Lemmatize</h3>
+<pre><code class="python">luvina.backend.lemmatize(token, pos='n'):
+</code></pre>
+
+<p>Basic lemmatization using a given part-of-speech.</p>
+<pre><code class="python">luv.lemmatize('driving', pos='v')
+&gt;&gt;&gt; 'drive'
+</code></pre>
+
+<h3 id="expanding-contractions">Expanding contractions</h3>
+<pre><code class="python">luvina.backend.expand_contractions(sentence):
+</code></pre>
+
+<p>Expand English contractions found in sentence/token:</p>
+<pre><code class="python">luv.expand_contractions(&quot;don't eat it&quot;)
+&gt;&gt;&gt; 'do not eat it'
+</code></pre>
+
+<h3 id="pos-tagging">POS tagging</h3>
+<pre><code class="python">luvina.backend.tag_pos(tokens):
+</code></pre>
+
+<p>POS tagging using a pre-trained neural network from NLTK.</p>
+<pre><code class="python">luv.tag_pos(luv.tokenize('a person is driving'))
+&gt;&gt;&gt; [('a', 'DT'), ('person', 'NN'), ('is', 'VBZ'), ('driving', 'VBG')]
+</code></pre>
+
+<h3 id="levenshtein-distance">Levenshtein distance</h3>
+<pre><code class="python">luvina.backend.calculate_levenshtein_distance(token_1, token_2):
+</code></pre>
+
+<p>Returns number of characters that need to be substituted, inserted or deleted from "token_1" to get "token_2".</p>
+<pre><code class="python">luv.calculate_levenshtein_distance('base','vase')
+&gt;&gt;&gt; 1
+</code></pre>
+
+<!---
+missing documentation from NLTK backend:
+remove_repeated_characters
+filter_tokens
+make_ngrams
+-->
               
             </div>
           </div>
