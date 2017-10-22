@@ -76,6 +76,28 @@
         
             <li><a class="toctree-l3" href="#calculate-wordnet-similarity">Calculate WordNet similarity</a></li>
         
+            <li><a class="toctree-l3" href="#lemmatize">Lemmatize</a></li>
+        
+            <li><a class="toctree-l3" href="#expanding-contractions">Expanding contractions</a></li>
+        
+            <li><a class="toctree-l3" href="#pos-tagging">POS tagging</a></li>
+        
+            <li><a class="toctree-l3" href="#levenshtein-distance">Levenshtein distance</a></li>
+        
+            <li><a class="toctree-l3" href="#check-dictionary">Check dictionary</a></li>
+        
+            <li><a class="toctree-l3" href="#suggest-words">Suggest words</a></li>
+        
+            <li><a class="toctree-l3" href="#get-vector">Get vector</a></li>
+        
+            <li><a class="toctree-l3" href="#get-vectors">Get vectors</a></li>
+        
+            <li><a class="toctree-l3" href="#calculate-norm">Calculate norm</a></li>
+        
+            <li><a class="toctree-l3" href="#calculate-cosine-similarity">Calculate cosine similarity</a></li>
+        
+            <li><a class="toctree-l3" href="#get-related-words">Get related words</a></li>
+        
         </ul>
     
 
@@ -160,7 +182,7 @@
 &gt;&gt;&gt; 0.8571428571428571
 </code></pre>
 
-<h3 id="lemmatize">Lemmatize</h3>
+<h2 id="lemmatize">Lemmatize</h2>
 <pre><code class="python">luvina.backend.lemmatize(token, pos='n'):
 </code></pre>
 
@@ -169,7 +191,7 @@
 &gt;&gt;&gt; 'drive'
 </code></pre>
 
-<h3 id="expanding-contractions">Expanding contractions</h3>
+<h2 id="expanding-contractions">Expanding contractions</h2>
 <pre><code class="python">luvina.backend.expand_contractions(sentence):
 </code></pre>
 
@@ -178,7 +200,7 @@
 &gt;&gt;&gt; 'do not eat it'
 </code></pre>
 
-<h3 id="pos-tagging">POS tagging</h3>
+<h2 id="pos-tagging">POS tagging</h2>
 <pre><code class="python">luvina.backend.tag_pos(tokens):
 </code></pre>
 
@@ -187,7 +209,7 @@
 &gt;&gt;&gt; [('a', 'DT'), ('person', 'NN'), ('is', 'VBZ'), ('driving', 'VBG')]
 </code></pre>
 
-<h3 id="levenshtein-distance">Levenshtein distance</h3>
+<h2 id="levenshtein-distance">Levenshtein distance</h2>
 <pre><code class="python">luvina.backend.calculate_levenshtein_distance(token_1, token_2):
 </code></pre>
 
@@ -196,11 +218,76 @@
 &gt;&gt;&gt; 1
 </code></pre>
 
+<h2 id="check-dictionary">Check dictionary</h2>
+<pre><code class="python">luvina.backend.in_dictionary(token)
+</code></pre>
+
+<p>Returns True if the given token is found in the enchant dictionary. Returns False otherwise.</p>
+<pre><code class="python">luv.in_dictionary('book')
+&gt;&gt;&gt; True
+</code></pre>
+
+<h2 id="suggest-words">Suggest words</h2>
+<pre><code class="python">luvina.backend.suggest_words(token)
+</code></pre>
+
+<p>Returns a list of similar tokens.</p>
+<pre><code class="python">luv.suggest_words('better')[:5]
+&gt;&gt;&gt; ['better', 'netter', 'betters', 'bester', 'setter']
+</code></pre>
+
+<h2 id="get-vector">Get vector</h2>
+<pre><code class="python">luvina.backend.get_vector(token)
+</code></pre>
+
+<p>Get glove word vector representation of a token.</p>
+<pre><code class="python">luv.get_vector('space')
+</code></pre>
+
+<h2 id="get-vectors">Get vectors</h2>
+<pre><code class="python">luvina.backend.get_vectors(tokens)
+</code></pre>
+
+<p>Returns a list of glove word vector representation of a list of tokens.</p>
+<pre><code class="python">luv.get_vectors(['I','was', 'here']) 
+</code></pre>
+
+<h2 id="calculate-norm">Calculate norm</h2>
+<pre><code class="python">luvina.backend.calculate_norm(vector)
+</code></pre>
+
+<p>Calculates the norm of a vector.</p>
+<pre><code class="python">luv.calculate_norm(luv.get_vector('mouse'))
+&gt;&gt;&gt; 7.2006297
+</code></pre>
+
+<h2 id="calculate-cosine-similarity">Calculate cosine similarity</h2>
+<pre><code class="python">luvina.backend.calculate_cosine_similarity(vector_1, vector_2)
+</code></pre>
+
+<p>Calculates the cosine similarity between two vectors.</p>
+<pre><code class="python">vector_1 = luv.get_vector('cup')
+vector_2 = luv.get_vector('plate')
+luv.calculate_cosine_similarity(vector_1, vector_2)
+&gt;&gt;&gt; 0.4010278
+</code></pre>
+
+<h2 id="get-related-words">Get related words</h2>
+<pre><code class="python">luvina.backend.get_related_words(token, max_num=3)
+</code></pre>
+
+<p>Use glove embeddings to get closer word vectors.</p>
+<pre><code class="python">luv.get_related_words('animal', 3)
+&gt;&gt;&gt; ['animals', 'pet', 'dog']
+</code></pre>
+
 <!---
 missing documentation from NLTK backend:
 remove_repeated_characters
 filter_tokens
 make_ngrams
+
+missing documentation from common backend
 -->
               
             </div>
