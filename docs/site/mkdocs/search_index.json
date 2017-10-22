@@ -2,12 +2,12 @@
     "docs": [
         {
             "location": "/",
-            "text": "Welcome to Luvina\n\n\nLuvina is a high-level Natural Language Processing API for Python built on top of spaCy and NLTK. It was developed with the idea of creating easy-to-use pre-processing functionalities.\n\n\nInstallation\n\n\nYou can install luvina from PyPI by running:\n\n\npip install luvina",
+            "text": "Welcome to Luvina\n\n\nLuvina is a high-level Natural Language Processing API for Python built on top of spaCy and NLTK. It was developed with the idea of creating easy-to-use pre-processing functions.\n\n\nInstallation\n\n\nYou can install luvina from PyPI by running:\n\n\npip install luvina",
             "title": "Home"
         },
         {
             "location": "/#welcome-to-luvina",
-            "text": "Luvina is a high-level Natural Language Processing API for Python built on top of spaCy and NLTK. It was developed with the idea of creating easy-to-use pre-processing functionalities.",
+            "text": "Luvina is a high-level Natural Language Processing API for Python built on top of spaCy and NLTK. It was developed with the idea of creating easy-to-use pre-processing functions.",
             "title": "Welcome to Luvina"
         },
         {
@@ -27,7 +27,7 @@
         },
         {
             "location": "/functions/",
-            "text": "Core functions\n\n\nTokenization\n\n\nluvina.backend.tokenize(sentence, lowercase=True)\n\n\n\n\nJust your basic tokenization operation.\n\n\nluv.tokenize('The cat sat on the mat.')\n>>> ['the', 'cat', 'sat', 'on', 'the', 'mat', '.']\n\n\n\n\nDefinitions\n\n\nGet definitions from token using WordNet.\n\n\nluvina.backend.get_definition(token)\n\n\n\n\nluv.get_definition('car')\n>>> 'a motor vehicle with four wheels; usually propelled by an internal combustion engine'\n\n\n\n\nSynonyms\n\n\nluvina.backend.get_synonyms(token)\n\n\n\n\nGet synonyms of the given token using WordNet.\n\n\nluv.get_synonyms('wallet')\n>>> ['billfold', 'notecase', 'pocketbook']\n\n\n\n\nStop words\n\n\nluvina.backend.get_stop_words(language='english'):\n\n\n\n\nGet a set of stop words (most common words) in the given language.\n\n\nlist(luv.get_stop_words())[:5]\n>>> ['doing', 'than', 'up', 'wouldn', 'this']\n\n\n\n\nCalculate WordNet similarity\n\n\nluvina.backend.calculate_wordnet_similarity(token_1, token_2):\n\n\n\n\nReturns a score based on the shortest path between the senses in the is-a (hypernym/hypnoym) taxonomy.\n\n\nluv.calculate_wordnet_similarity('dog','cat')\n>>> 0.8571428571428571\n\n\n\n\nLemmatize\n\n\nluvina.backend.lemmatize(token, pos='n'):\n\n\n\n\nBasic lemmatization using a given part-of-speech.\n\n\nluv.lemmatize('driving', pos='v')\n>>> 'drive'\n\n\n\n\nExpanding contractions\n\n\nluvina.backend.expand_contractions(sentence):\n\n\n\n\nExpand English contractions found in sentence/token:\n\n\nluv.expand_contractions(\"don't eat it\")\n>>> 'do not eat it'\n\n\n\n\nPOS tagging\n\n\nluvina.backend.tag_pos(tokens):\n\n\n\n\nPOS tagging using a pre-trained neural network from NLTK.\n\n\nluv.tag_pos(luv.tokenize('a person is driving'))\n>>> [('a', 'DT'), ('person', 'NN'), ('is', 'VBZ'), ('driving', 'VBG')]\n\n\n\n\nLevenshtein distance\n\n\nluvina.backend.calculate_levenshtein_distance(token_1, token_2):\n\n\n\n\nReturns number of characters that need to be substituted, inserted or deleted from \"token_1\" to get \"token_2\".\n\n\nluv.calculate_levenshtein_distance('base','vase')\n>>> 1",
+            "text": "Core functions\n\n\nTokenization\n\n\nluvina.backend.tokenize(sentence, lowercase=True)\n\n\n\n\nJust your basic tokenization operation.\n\n\nluv.tokenize('The cat sat on the mat.')\n>>> ['the', 'cat', 'sat', 'on', 'the', 'mat', '.']\n\n\n\n\nDefinitions\n\n\nGet definitions from token using WordNet.\n\n\nluvina.backend.get_definition(token)\n\n\n\n\nluv.get_definition('car')\n>>> 'a motor vehicle with four wheels; usually propelled by an internal combustion engine'\n\n\n\n\nSynonyms\n\n\nluvina.backend.get_synonyms(token)\n\n\n\n\nGet synonyms of the given token using WordNet.\n\n\nluv.get_synonyms('wallet')\n>>> ['billfold', 'notecase', 'pocketbook']\n\n\n\n\nStop words\n\n\nluvina.backend.get_stop_words(language='english'):\n\n\n\n\nGet a set of stop words (most common words) in the given language.\n\n\nlist(luv.get_stop_words())[:5]\n>>> ['doing', 'than', 'up', 'wouldn', 'this']\n\n\n\n\nCalculate WordNet similarity\n\n\nluvina.backend.calculate_wordnet_similarity(token_1, token_2):\n\n\n\n\nReturns a score based on the shortest path between the senses in the is-a (hypernym/hypnoym) taxonomy.\n\n\nluv.calculate_wordnet_similarity('dog','cat')\n>>> 0.8571428571428571\n\n\n\n\nLemmatize\n\n\nluvina.backend.lemmatize(token, pos='n'):\n\n\n\n\nBasic lemmatization using a given part-of-speech.\n\n\nluv.lemmatize('driving', pos='v')\n>>> 'drive'\n\n\n\n\nExpanding contractions\n\n\nluvina.backend.expand_contractions(sentence):\n\n\n\n\nExpand English contractions found in sentence/token:\n\n\nluv.expand_contractions(\"don't eat it\")\n>>> 'do not eat it'\n\n\n\n\nPOS tagging\n\n\nluvina.backend.tag_pos(tokens):\n\n\n\n\nPOS tagging using a pre-trained neural network from NLTK.\n\n\nluv.tag_pos(luv.tokenize('a person is driving'))\n>>> [('a', 'DT'), ('person', 'NN'), ('is', 'VBZ'), ('driving', 'VBG')]\n\n\n\n\nLevenshtein distance\n\n\nluvina.backend.calculate_levenshtein_distance(token_1, token_2):\n\n\n\n\nReturns number of characters that need to be substituted, inserted or deleted from \"token_1\" to get \"token_2\".\n\n\nluv.calculate_levenshtein_distance('base','vase')\n>>> 1\n\n\n\n\nCheck dictionary\n\n\nluvina.backend.in_dictionary(token)\n\n\n\n\nReturns True if the given token is found in the enchant dictionary. Returns False otherwise.\n\n\nluv.in_dictionary('book')\n>>> True\n\n\n\n\nSuggest words\n\n\nluvina.backend.suggest_words(token)\n\n\n\n\nReturns a list of similar tokens.\n\n\nluv.suggest_words('better')[:5]\n>>> ['better', 'netter', 'betters', 'bester', 'setter']\n\n\n\n\nGet vector\n\n\nluvina.backend.get_vector(token)\n\n\n\n\nGet glove word vector representation of a token.\n\n\nluv.get_vector('space')\n\n\n\n\nGet vectors\n\n\nluvina.backend.get_vectors(tokens)\n\n\n\n\nReturns a list of glove word vector representation of a list of tokens.\n\n\nluv.get_vectors(['I','was', 'here']) \n\n\n\n\nCalculate norm\n\n\nluvina.backend.calculate_norm(vector)\n\n\n\n\nCalculates the norm of a vector.\n\n\nluv.calculate_norm(luv.get_vector('mouse'))\n>>> 7.2006297\n\n\n\n\nCalculate cosine similarity\n\n\nluvina.backend.calculate_cosine_similarity(vector_1, vector_2)\n\n\n\n\nCalculates the cosine similarity between two vectors.\n\n\nvector_1 = luv.get_vector('cup')\nvector_2 = luv.get_vector('plate')\nluv.calculate_cosine_similarity(vector_1, vector_2)\n>>> 0.4010278\n\n\n\n\nGet related words\n\n\nluvina.backend.get_related_words(token, max_num=3)\n\n\n\n\nUse glove embeddings to get closer word vectors.\n\n\nluv.get_related_words('animal', 3)\n>>> ['animals', 'pet', 'dog']",
             "title": "Functions"
         },
         {
@@ -79,6 +79,41 @@
             "location": "/functions/#levenshtein-distance",
             "text": "luvina.backend.calculate_levenshtein_distance(token_1, token_2):  Returns number of characters that need to be substituted, inserted or deleted from \"token_1\" to get \"token_2\".  luv.calculate_levenshtein_distance('base','vase')\n>>> 1",
             "title": "Levenshtein distance"
+        },
+        {
+            "location": "/functions/#check-dictionary",
+            "text": "luvina.backend.in_dictionary(token)  Returns True if the given token is found in the enchant dictionary. Returns False otherwise.  luv.in_dictionary('book')\n>>> True",
+            "title": "Check dictionary"
+        },
+        {
+            "location": "/functions/#suggest-words",
+            "text": "luvina.backend.suggest_words(token)  Returns a list of similar tokens.  luv.suggest_words('better')[:5]\n>>> ['better', 'netter', 'betters', 'bester', 'setter']",
+            "title": "Suggest words"
+        },
+        {
+            "location": "/functions/#get-vector",
+            "text": "luvina.backend.get_vector(token)  Get glove word vector representation of a token.  luv.get_vector('space')",
+            "title": "Get vector"
+        },
+        {
+            "location": "/functions/#get-vectors",
+            "text": "luvina.backend.get_vectors(tokens)  Returns a list of glove word vector representation of a list of tokens.  luv.get_vectors(['I','was', 'here'])",
+            "title": "Get vectors"
+        },
+        {
+            "location": "/functions/#calculate-norm",
+            "text": "luvina.backend.calculate_norm(vector)  Calculates the norm of a vector.  luv.calculate_norm(luv.get_vector('mouse'))\n>>> 7.2006297",
+            "title": "Calculate norm"
+        },
+        {
+            "location": "/functions/#calculate-cosine-similarity",
+            "text": "luvina.backend.calculate_cosine_similarity(vector_1, vector_2)  Calculates the cosine similarity between two vectors.  vector_1 = luv.get_vector('cup')\nvector_2 = luv.get_vector('plate')\nluv.calculate_cosine_similarity(vector_1, vector_2)\n>>> 0.4010278",
+            "title": "Calculate cosine similarity"
+        },
+        {
+            "location": "/functions/#get-related-words",
+            "text": "luvina.backend.get_related_words(token, max_num=3)  Use glove embeddings to get closer word vectors.  luv.get_related_words('animal', 3)\n>>> ['animals', 'pet', 'dog']",
+            "title": "Get related words"
         }
     ]
 }
