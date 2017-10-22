@@ -61,7 +61,7 @@ luv.calculate_wordnet_similarity('dog','cat')
 >>> 0.8571428571428571
 ```
 
-### Lemmatize
+## Lemmatize
 
 ```python
 luvina.backend.lemmatize(token, pos='n'):
@@ -73,7 +73,7 @@ luv.lemmatize('driving', pos='v')
 >>> 'drive'
 ```
 
-### Expanding contractions
+## Expanding contractions
 
 ```python
 luvina.backend.expand_contractions(sentence):
@@ -86,7 +86,7 @@ luv.expand_contractions("don't eat it")
 >>> 'do not eat it'
 ```
 
-### POS tagging
+## POS tagging
 
 ```python
 luvina.backend.tag_pos(tokens):
@@ -99,7 +99,7 @@ luv.tag_pos(luv.tokenize('a person is driving'))
 >>> [('a', 'DT'), ('person', 'NN'), ('is', 'VBZ'), ('driving', 'VBG')]
 ```
 
-### Levenshtein distance
+## Levenshtein distance
 
 ```python
 luvina.backend.calculate_levenshtein_distance(token_1, token_2):
@@ -111,10 +111,103 @@ luv.calculate_levenshtein_distance('base','vase')
 >>> 1
 ```
 
+## Check dictionary
+
+```python
+luvina.backend.in_dictionary(token)
+```
+Returns True if the given token is found in the enchant dictionary. Returns False otherwise.
+
+```python
+luv.in_dictionary('book')
+>>> True
+```
+
+## Suggest words
+
+```python
+luvina.backend.suggest_words(token)
+```
+Returns a list of similar tokens.
+
+```python
+luv.suggest_words('better')[:5]
+>>> ['better', 'netter', 'betters', 'bester', 'setter']
+```
+
+## Get vector
+
+```python
+luvina.backend.get_vector(token)
+```
+
+Get glove word vector representation of a token.
+
+```python
+luv.get_vector('space')
+```
+
+## Get vectors
+
+```python
+luvina.backend.get_vectors(tokens)
+```
+
+Returns a list of glove word vector representation of a list of tokens.
+
+```python
+luv.get_vectors(['I','was', 'here']) 
+```
+
+
+## Calculate norm
+
+```python
+luvina.backend.calculate_norm(vector)
+```
+Calculates the norm of a vector.
+
+
+```python
+luv.calculate_norm(luv.get_vector('mouse'))
+>>> 7.2006297
+```
+
+## Calculate cosine similarity
+
+```python
+luvina.backend.calculate_cosine_similarity(vector_1, vector_2)
+```
+Calculates the cosine similarity between two vectors.
+
+```python
+vector_1 = luv.get_vector('cup')
+vector_2 = luv.get_vector('plate')
+luv.calculate_cosine_similarity(vector_1, vector_2)
+>>> 0.4010278
+```
+
+## Get related words
+
+```python
+luvina.backend.get_related_words(token, max_num=3)
+```
+
+Use glove embeddings to get closer word vectors.
+
+```python
+luv.get_related_words('animal', 3)
+>>> ['animals', 'pet', 'dog']
+```
+
 
 <!---
 missing documentation from NLTK backend:
 remove_repeated_characters
 filter_tokens
 make_ngrams
+
+missing documentation from common backend
 -->
+
+
