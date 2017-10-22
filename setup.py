@@ -2,7 +2,7 @@ from setuptools import setup
 from setuptools import find_packages
 
 setup(name='luvina',
-      version='0.0.19',
+      version='0.0.20',
       description='High-level API for Natural Language Processing in NLTK',
       author='Octavio Arriaga',
       author_email='arriaga.camargo@gmail.com',

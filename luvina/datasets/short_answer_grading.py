@@ -40,7 +40,6 @@ def _read_file(filename):
 
 
 def _get_scores(root_path):
-    # data_path = '../datasets/short_answer_grading_v2/scores/'
     data_path = root_path + '/scores/'
     score_paths = glob.glob(data_path + '*')
     scores = dict()
@@ -68,35 +67,29 @@ def _convert_to_dictionary(string_data):
 def get_data(root_path):
     questions, teacher_answers, student_answers = _get_string_data(root_path)
     scores = _get_scores(root_path)
+
     teacher_answers = _convert_to_dictionary(teacher_answers)
+    questions = _convert_to_dictionary(questions)
+
     teacher_answers_list = []
     student_answers_list = []
-    scores_1 = []
-    scores_2 = []
-    scores_3 = []
-    keys = student_answers.id.tolist()
-    for arg, key in enumerate(keys):
-        teacher_answers_list.append(teacher_answers[key])
-        student_answers_list.append(student_answers.text.iloc[arg])
-        scores_list = scores[key]
-        scores_1.append(scores_list[0])
-        scores_2.append(scores_list[1])
-        scores_3.append(scores_list[2])
-    data_1 = pd.DataFrame({'teacher': teacher_answers_list,
-                           'student': student_answers_list,
-                           'score': scores_1})
+    questions_list = []
+    scores_list = []
+    for key in student_answers.id.tolist():
+        masked_student_answers = student_answers[student_answers.id == key]
+        masked_scores = scores[key]
+        for score_set in masked_scores:
+            for mask_arg in range(len(masked_student_answers.text)):
+                student_answer = masked_student_answers.text.iloc[mask_arg]
+                student_answers_list.append(student_answer)
+                scores_list.append(score_set[mask_arg])
+                teacher_answers_list.append(teacher_answers[key])
+                questions_list.append(questions[key])
 
-    data_2 = pd.DataFrame({'teacher': teacher_answers_list,
-                           'student': student_answers_list,
-                           'score': scores_2})
-
-    data_3 = pd.DataFrame({'teacher': teacher_answers_list,
-                           'student': student_answers_list,
-                           'score': scores_3})
-
-    data_frames = [data_1, data_2, data_3]
-    data = pd.concat(data_frames, axis=0)
-    return data
+    return pd.DataFrame({'questions': questions_list,
+                         'teacher': teacher_answers_list,
+                         'student': student_answers_list,
+                         'scores': scores_list})
 
 
 def load_data(path='ShortAnswerGrading_v2.0'):
@@ -115,3 +108,6 @@ def load_data(path='ShortAnswerGrading_v2.0'):
                          cache_subdir='datasets/short_answer_grading')
     root_path = os.path.dirname(root_path) + '/data'
     return get_data(root_path)
+
+
+data = load_data()
