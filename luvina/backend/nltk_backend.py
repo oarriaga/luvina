@@ -84,6 +84,8 @@ def get_synonyms(token):
         synonyms: list containing synonyms as strings
     """
     synonyms = []
+    if len(wordnet.synsets(token)) == 0:
+        return None
     for synset in wordnet.synsets(token):
         for lemma in synset.lemmas():
             synonyms.append(lemma.name())
@@ -99,7 +101,10 @@ def get_definition(token):
     returns:
         definition: string containing definition of word
     """
-    return wordnet.synsets(token)[0].definition()
+    synsets = wordnet.synsets(token)
+    if len(synsets) == 0:
+        return []
+    return synsets[0].definition()
 
 
 def get_stop_words(language='english'):
@@ -107,10 +112,10 @@ def get_stop_words(language='english'):
     args:
         language: language for which the stop words will be used
     returns:
-        english_stop_words= list of stop words in string format.
+        stop_words= list of stop words in string format.
     """
-    english_stop_words = set(stopwords.words(language))
-    return english_stop_words
+    stop_words = list(set(stopwords.words(language)))
+    return stop_words
 
 
 def filter_tokens(tokens, filters):
@@ -135,11 +140,14 @@ def calculate_wordnet_similarity(token_1, token_2):
         token_1: string
         token_2: string
     returns:
-        wordnet_similarity: int score for wordnet similarity
+        wordnet_similarity: int score for wordnet similarity or None
+        if either given token is not a word.
     """
-    synset_1 = wordnet.synsets(token_1)[0]
-    synset_2 = wordnet.synsets(token_2)[0]
-    wordnet_similarity = synset_1.wup_similarity(synset_2)
+    synset_1 = wordnet.synsets(token_1)
+    synset_2 = wordnet.synsets(token_2)
+    if len(synset_1) == 0 or len(synset_2) == 0:
+        return None
+    wordnet_similarity = synset_1[0].wup_similarity(synset_2[0])
     return wordnet_similarity
 
 
