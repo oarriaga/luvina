@@ -75,6 +75,7 @@ def get_data(root_path):
     student_answers_list = []
     questions_list = []
     scores_list = []
+    keys_list = []
     for key in student_answers.id.tolist():
         masked_student_answers = student_answers[student_answers.id == key]
         masked_scores = scores[key]
@@ -85,8 +86,10 @@ def get_data(root_path):
                 scores_list.append(score_set[mask_arg])
                 teacher_answers_list.append(teacher_answers[key])
                 questions_list.append(questions[key])
+                keys_list.append(key)
 
-    return pd.DataFrame({'questions': questions_list,
+    return pd.DataFrame({'id': keys_list,
+                         'questions': questions_list,
                          'teacher': teacher_answers_list,
                          'student': student_answers_list,
                          'scores': scores_list})
