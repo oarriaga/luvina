@@ -114,7 +114,7 @@ def correct_misspelling_ngram(token, levenshtein_treshold=3):
         return word
 
 
-def calculate_token_frequencies(sentences):
+def get_token_frequencies(sentences):
     """ count the number of times all tokens appear in all sentences.
     args:
         sentences: list of sentences where each sentence contains a
