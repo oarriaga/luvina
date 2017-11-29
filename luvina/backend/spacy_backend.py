@@ -3,7 +3,7 @@ import spacy
 from .common import remove_repeated_elements
 
 
-spacy_dictionary = spacy.load('en')
+spacy_dictionary = spacy.load('en_core_web_sm')
 
 
 # parser = English()
