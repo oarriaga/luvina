@@ -76,7 +76,7 @@ def get_data(root_path):
     questions_list = []
     scores_list = []
     keys_list = []
-    for key in student_answers.id.tolist():
+    for key in student_answers.id.unique().tolist():
         masked_student_answers = student_answers[student_answers.id == key]
         masked_scores = scores[key]
         for score_set in masked_scores:
