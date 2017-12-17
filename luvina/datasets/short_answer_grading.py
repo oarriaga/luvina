@@ -6,6 +6,15 @@ import os
 import numpy as np
 
 
+# this #$%#%! dataset contains mixed values for scores in the last exercises.
+# moreover, the average (avg) files are between a value of 0-5 while the me,
+# and other are between 0-10.
+NOT_NORMALIZED_FILES = [str(num) for num in np.arange(11.1, 11.9, .1)]
+NOT_NORMALIZED_FILES += ['11.10']
+NOT_NORMALIZED_FILES += [str(num) for num in np.arange(12.1, 12.9, .1)]
+NOT_NORMALIZED_FILES += ['12.10']
+
+
 def _get_string_data(root_path):
     # data_path = '../datasets/short_answer_grading_v2/raw/'
     data_path = root_path + '/raw/'
@@ -52,10 +61,16 @@ def _get_scores(root_path):
             _score_file = open(score_file, 'r')
             for line in _score_file:
                 file_scores.append(float(line))
+
+            # FIXING NOT NORMALIZED SCORES
+            file_scores_array = np.asarray(file_scores)
+            if ((basename(score_file) not in 'ave') and
+                    (basename(scores_path) in NOT_NORMALIZED_FILES)):
+                print(file_scores_array)
+                file_scores = (file_scores_array / 2.).tolist()
+            # ----------------------------
+
             question_scores.append(file_scores)
-            question_scores_array = np.asarray(question_scores)
-            if np.max(question_scores) > 5.0:
-                question_scores = (question_scores_array / 2.).tolist()
         scores_key = basename(scores_path)
         scores[scores_key] = question_scores
     return scores
@@ -116,5 +131,4 @@ def load_data(path='ShortAnswerGrading_v2.0'):
     root_path = os.path.dirname(root_path) + '/data'
     return get_data(root_path)
 
-
-data = load_data()
+# data = load_data()
