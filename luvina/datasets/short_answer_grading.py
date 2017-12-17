@@ -66,7 +66,6 @@ def _get_scores(root_path):
             file_scores_array = np.asarray(file_scores)
             if ((basename(score_file) not in 'ave') and
                     (basename(scores_path) in NOT_NORMALIZED_FILES)):
-                print(file_scores_array)
                 file_scores = (file_scores_array / 2.).tolist()
             # ----------------------------
 
