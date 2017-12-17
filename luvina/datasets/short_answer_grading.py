@@ -3,6 +3,7 @@ import pandas as pd
 import glob
 from os.path import basename
 import os
+import numpy as np
 
 
 def _get_string_data(root_path):
@@ -52,6 +53,9 @@ def _get_scores(root_path):
             for line in _score_file:
                 file_scores.append(float(line))
             question_scores.append(file_scores)
+            question_scores_array = np.asarray(question_scores)
+            if np.max(question_scores) > 5.0:
+                question_scores = (question_scores_array / 2.).tolist()
         scores_key = basename(scores_path)
         scores[scores_key] = question_scores
     return scores
